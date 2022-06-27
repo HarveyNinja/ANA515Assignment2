@@ -1,0 +1,68 @@
+---
+title: "NBA-raptor"
+author: "PD"
+date: "6/19/2022"
+output: html_document
+---
+
+#```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+#```
+
+``` {r setup, include = FALSE}
+library(bslib)
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+```
+
+
+#Description of the data
+#contains RAPTOR data for every player broken out by season since the 1976 ABA-NBA merger.
+
+
+```{r, echo = TRUE}
+#read data
+url<-"https://raw.githubusercontent.com/fivethirtyeight/data/master/nba-raptor/historical_RAPTOR_by_player.csv"
+historical_player<- read.csv(url)
+```
+
+```{r,echo=TRUE}
+#clean data
+#only take the data after 1990
+after_90s<-historical_player %>%
+  filter(season>=1990)
+```
+
+This data has `r nrow(after_90s)` rows and `r ncol(after_90s)`
+
+```{r results= TRUE}
+text_tbl<-after_90s
+Names=c("player_name","poss","mp","raptor_offense")
+Description=c("player's name","Possessions played","Minutes played","Points above average per 100 possessions added by player on offense, using both box and on-off components")
+text_tbl#prints the table
+```
+
+```{r, echo=TRUE}
+#pick 3 columns of the data frame
+od3<-select(after_90s,raptor_offense,raptor_defense,raptor_total)
+summaryod3<-summary(od3)
+summaryod3
+```
+
+
+
+```{r, echo=TRUE}
+
+summary(after_90s)
+```
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
